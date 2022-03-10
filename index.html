@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <title>PhotoText</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="text-center jumbotron mt-3">
+        <img
+          id="userImage"
+          src="assets/images/sample.png"
+          class="rounded"
+        /><br />
+        <button class="btn-danger btn-lg btn-block mt-3" id="convert">
+          Get text from image
+        </button>
+      </div>
+      <hr />
+      <div class="text-center jumbotron mt-3">
+        <textarea
+          id="result"
+          rows="20"
+          cols="40"
+          style="
+            background-color: rgba(221, 198, 198, 0.363);
+            text-align: center;
+          "
+        ></textarea>
+        <br />
+          <button id="copy" class="btn-danger btn-lg btn-block mt-3">
+            Copy to clipboard
+          </button>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js"></script>
+  <script>
+    $("#convert").click(function () {
+      var myImage = document.getElementById("userImage");
+      const textarea = document.getElementById("result");
+      Tesseract.recognize(myImage).then(function (result) {
+        console.log(result.text);
+        textarea.innerText = result.text;
+      });
+    });
+
+    $("#copy").click(function () {
+      var textarea = document.getElementById("result");
+
+      textarea.select();
+      textarea.setSelectionRange(0, 99999);
+
+      document.execCommand("copy");
+    });
+  </script>
+</html>
